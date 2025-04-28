@@ -5,7 +5,7 @@
 #include <iostream>
 #include "G4UserSteppingAction.hh"
 #include "G4String.hh"
-
+#include <fstream> //nuevo
 #include "Event.h"
 
 
@@ -29,6 +29,19 @@ class G4HodoscopeSteppingAction : public G4UserSteppingAction
 
 		//std::vector<int> fBarsX1;
 		//std::vector<int> fBarsY1;
+
+//############# Nuevo
+//	public:
+//    		G4HodoscopeSteppingAction() {
+        	// Abrir un archivo de registro
+//        	logFile.open("registro_simulacion.txt");
+ //   						}
+
+//    	~G4HodoscopeSteppingAction() {
+        	// Cerrar el archivo de registro al finalizar la simulación
+//        	logFile.close();
+//   						 }
+//FIN
 };
 
 #endif

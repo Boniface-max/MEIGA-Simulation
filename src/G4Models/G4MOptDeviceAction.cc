@@ -20,9 +20,9 @@ G4MOptDeviceAction::G4MOptDeviceAction(const G4String& name, const G4int dId, co
 		SimData& simData = fEvent.GetSimData();
 		DetectorSimData& detSimData = simData.GetDetectorSimData(fDetectorId);
 		detSimData.MakeOptDeviceSimData(fOptDeviceId);
-		// OptDeviceSimData& OptDeviceSimData = detSimData.GetOptDeviceSimData(fOptDeviceId);
+		//OptDeviceSimData& OptDeviceSimData = detSimData.GetOptDeviceSimData(fOptDeviceId);
 		OptDevice& optDevice = fEvent.GetDetector(fDetectorId).GetOptDevice(fOptDeviceId);
-		// fPETimeDistribution = OptDeviceSimData.PETimeDistributionRange();
+		//fPETimeDistribution = OptDeviceSimData.PETimeDistributionRange();
 
 		std::cout << "[INFO] G4Models::G4MOptDeviceAction: Registering OptDevice " << optDevice.GetName() << " " << name << " " << fOptDeviceId << std::endl;
 
@@ -32,7 +32,7 @@ void
 G4MOptDeviceAction::Initialize(G4HCofThisEvent* const /*hce*/)
 {
 	
-	// fPETime = new std::vector<double>();
+	//fPETime = new std::vector<double>();
 
 }
 

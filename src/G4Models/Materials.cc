@@ -276,6 +276,9 @@ G4Element* Materials::elFe;
 G4Element* Materials::elAl;
 G4Element* Materials::elPb;
 G4Element* Materials::elCl;
+G4Element* Materials::elMn;//ruta agregada para el Manganeso - componente del acero
+
+
 
 G4Material* Materials::SiO2;
 G4Material* Materials::TiO2;
@@ -287,6 +290,32 @@ G4Material* Materials::Polystyrene;
 
 // Materials
 G4Material* Materials::Air;
+G4Material* Materials::Steel;//ruta agregada para material acero
+//++++++++++++ materiales agregados para el catalizador ++++++++
+G4Material* Materials::Molibdeno;
+G4Material* Materials::Niquel;
+G4Material* Materials::Vanadio;
+G4Material* Materials::Oxigeno;
+G4Material* Materials::Aluminio;
+G4Material* Materials::Hidrogeno;
+G4Material* Materials::Carbono;
+G4Material* Materials::Calcio;
+G4Material* Materials::Azufre;
+G4Material* Materials::Sodio;
+G4Material* Materials::NiMo_Al2O3;
+G4Material* Materials::Parafina;
+G4Material* Materials::Benceno;
+G4Material* Materials::Diesel;
+G4Material* Materials::NiMo_Al2O3_20porciento;
+G4Material* Materials::NiMo_Al2O3_40porciento;
+G4Material* Materials::NiMo_Al2O3_60porciento;
+G4Material* Materials::NiMo_Al2O3_74porciento;
+G4Material* Materials::LechoFijo;
+G4Material* Materials::LechoFijo_20porciento;
+G4Material* Materials::LechoFijo_40porciento;
+G4Material* Materials::LechoFijo_60porciento;
+G4Material* Materials::LechoFijo_74porciento;
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 G4Material* Materials::Water;
 G4Material* Materials::Salt;
 G4Material* Materials::SaltyWater;
@@ -300,6 +329,9 @@ G4Material* Materials::Pyrex;
 G4Material* Materials::HDPE;
 G4Material* Materials::Concrete;
 G4Material* Materials::Lead;
+G4Material* Materials::Iron;
+G4Material* Materials::Oil;
+G4Material* Materials::Alum;
 G4OpticalSurface* Materials::ScinOptSurf;
 G4OpticalSurface* Materials::LinerOptSurf;
 G4OpticalSurface* Materials::LinerOptSurf2;
@@ -360,12 +392,21 @@ Materials::CreateElements()
 	elAl = new G4Element("Aluminium", "Al", 13, 26.98 * g/mole);
 	elPb = new G4Element("Lead", "Pb", 82, 207.2 * g/mole);
 	elCl = new G4Element("Clhorine", "Cl", 17, 70.906 * g/mole);
-
+        elMn = new G4Element("Manganese", "Mn", 25, 54.938 * g/mole);// definienco Mn - componente de acero
+	//elMo = new G4Element("Molibdeno", "Mo", 42, 95.95 * g/mole);// definiendo Mo - componente de catalizador
+	//elNi = new G4Element("Niquel", "Ni", 28, 58.693 * g/mole);// definiendo Ni - componente de catalizador
+	//elV = new G4Element("Vanadio", "V", 23,50.94  * g/mole); // definiendo V - componente de catalizador contaminado
 }
 
 void
 Materials::CreateCompounds()
 {
+	// Composición química del petróleo (un ejemplo simplificado)
+	Oil = new G4Material("Oil", 0.82 * g/cm3, 2);
+	Oil->AddElement(elC, 10); // 10 átomos de carbono
+	Oil->AddElement(elH, 18); // 18 átomos de hidrógeno
+
+
 	// silicon dioxide for "quartz"
 	SiO2 = new G4Material("SiO2", 2.65 * g/cm3, 2);
 	SiO2->AddElement(elSi, 1);
@@ -435,10 +476,18 @@ Materials::CreateMaterials()
 	Air = new G4Material("Air", 1.29e-3 * g/cm3, 2);
 	Air->AddElement(elN, 0.7);
 	Air->AddElement(elO, 0.3);
+        // --------------------------------------------------------------------
+        // Steel                                                                // ruta agregada para definir acero
+        // --------------------------------------------------------------------
+        Steel = new G4Material("Steel", 7.7 * g/cm3, 3);
+        Steel->AddElement(elFe, 0.97);
+        Steel->AddElement(elC, 0.02);
+	Steel->AddElement(elMn, 0.01);
+
 	// --------------------------------------------------------------------
 	// Water
 	// --------------------------------------------------------------------
-	Water = new G4Material("Water", 1 * g/cm3, 2);
+	Water = new G4Material("Water", 1.45 * g/cm3, 2);
 	Water->AddElement(elH, 2);
 	Water->AddElement(elO, 1);
 
@@ -623,6 +672,140 @@ Materials::CreateMaterials()
 	Concrete->AddElement(elFe, 0.04);
 	Concrete->AddElement(elAl, 0.04);
 
+
+	//Iron
+	Iron = new G4Material("Iron", 26., 55.85 * g/mole, 7.87 * g/cm3);
+        
+        
+
 	// define lead as material, not element
 	Lead = new G4Material("Lead", 82., 207.2 * g/mole, 11.35 * g/cm3);
+        
+	// define Al as material, not element
+        Alum = new G4Material("Alum", 13., 26.98 * g/mole, 2.7 * g/cm3);
+        
+
+// ++++++++++++++++++++++ A PARTIR DE AQUÌ SE DEFINEN MATERIALES PATRA EL CATALIZADOR +++++++++++++++++++++
+	// +++++++++++ elementos para catalizador +++++++++++++++++++++++++++++++++
+        Aluminio = new G4Material("Aluminio", 13, 26.98 * g/mole, 2.7 * g/cm3);
+	Oxigeno = new G4Material("Oxigeno", 8., 16 * g/mole, 0.001429 * g/cm3);
+	Niquel = new G4Material("Niquel", 28., 58.69 * g/mole, 8.908 * g/cm3);
+	Molibdeno = new G4Material("Molibdeno", 42., 95.95 * g/mole, 10.28 * g/cm3);	
+        Vanadio = new G4Material("Vanadio", 23., 50.94 * g/mole, 6.11 * g/cm3);
+	Carbono = new G4Material("Carbono", 6, 12.01 * g/mole, 2.267 * g/cm3);
+	Calcio=new G4Material("Calcio", 20, 40.08 * g/mole, 1.55 * g/cm3);
+	Azufre=new G4Material("Azufre", 16, 32.06 * g/mole, 2.07 * g/cm3);
+        Sodio =new G4Material("Sodio", 11, 22.99 * g/mole, 0.97 * g/cm3); 
+        Hidrogeno = new G4Material("Hidrogeno", 1, 1 * g/mole, 0.0000899 * g/cm3);
+	// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+        // ++++++++++ Materiales para el Lecho Fijo - Torre de Craqueo ++++++++++++++
+        // define catalizador NiMo/Al2O3
+       	//   NiMo_Al2O3 = new G4Material("NiMo_Al2O3", 1.44 *g/cm3, 4);
+	//   NiMo_Al2O3->AddMaterial(Oxigeno, 43.3*perCent);
+        //   NiMo_Al2O3->AddMaterial(Aluminio, 40.22*perCent);
+	//   NiMo_Al2O3->AddMaterial(Molibdeno, 13.3*perCent);
+        //   NiMo_Al2O3->AddMaterial(Niquel, 3.14*perCent);
+             
+        // define Parafina
+	Parafina = new G4Material("Parafina", 0.9 * g/cm3, 2);
+        Parafina->AddMaterial(Hidrogeno, 15.3*perCent);
+        Parafina->AddMaterial(Carbono, 84.7*perCent);
+
+	// define Benceno
+	Benceno = new G4Material("Benceno", 0.88 * g/cm3, 2);
+        Benceno->AddMaterial(Hidrogeno, 7.7*perCent);
+        Benceno->AddMaterial(Carbono, 92.3*perCent);
+        
+        // define Diesel
+	Diesel = new G4Material("Diesel", 0.85 * g/cm3, 2);
+        Diesel->AddMaterial(Benceno, 25*perCent);
+        Diesel->AddMaterial(Parafina, 75*perCent);	
+        
+        // define NiMo_Al2O3 - para que el total aumente 0%.
+        NiMo_Al2O3 = new G4Material("NiMo_Al2O3", 1.56 * g/cm3, 4);
+        NiMo_Al2O3->AddMaterial(Aluminio,40.22*perCent);
+        NiMo_Al2O3->AddMaterial(Oxigeno,43.3*perCent);
+	NiMo_Al2O3->AddMaterial(Niquel,3.14*perCent);
+       	NiMo_Al2O3->AddMaterial(Molibdeno,13.34*perCent);
+                   
+        
+        // define NiMo_Al2O3 - para que el total aumente 20%
+       	NiMo_Al2O3_20porciento = new G4Material("NiMo_Al2O3_20porciento", 1.79 * g/cm3, 9);
+        NiMo_Al2O3_20porciento->AddMaterial(Aluminio,27.65*perCent);
+        NiMo_Al2O3_20porciento->AddMaterial(Oxigeno,31.97*perCent);
+        NiMo_Al2O3_20porciento->AddMaterial(Niquel,5.41*perCent);
+        NiMo_Al2O3_20porciento->AddMaterial(Molibdeno,9.16*perCent);
+        NiMo_Al2O3_20porciento->AddMaterial(Vanadio,2.2*perCent);
+        NiMo_Al2O3_20porciento->AddMaterial(Carbono,11.85*perCent);
+        NiMo_Al2O3_20porciento->AddMaterial(Calcio,5.39*perCent);
+        NiMo_Al2O3_20porciento->AddMaterial(Azufre,6.34*perCent);
+	NiMo_Al2O3_20porciento->AddMaterial(Sodio,0.03*perCent);
+
+         // define NiMo_Al2O3 - para que el total aumente 40%
+        NiMo_Al2O3_40porciento = new G4Material("NiMo_Al2O3_40porciento", 1.94 * g/cm3, 9);
+        NiMo_Al2O3_40porciento->AddMaterial(Aluminio,21.04*perCent);
+        NiMo_Al2O3_40porciento->AddMaterial(Oxigeno,26.025*perCent);
+        NiMo_Al2O3_40porciento->AddMaterial(Niquel,6.6*perCent);
+        NiMo_Al2O3_40porciento->AddMaterial(Molibdeno,6.97*perCent);
+        NiMo_Al2O3_40porciento->AddMaterial(Vanadio,3.36*perCent);
+        NiMo_Al2O3_40porciento->AddMaterial(Carbono,18.07*perCent);
+        NiMo_Al2O3_40porciento->AddMaterial(Calcio,8.22*perCent);
+        NiMo_Al2O3_40porciento->AddMaterial(Azufre,9.67*perCent);
+        NiMo_Al2O3_40porciento->AddMaterial(Sodio,0.045*perCent);
+
+	// define NiMo_Al2O3 - para que el total aumente 60%
+        NiMo_Al2O3_60porciento = new G4Material("NiMo_Al2O3_60porciento", 2.045 * g/cm3, 9);
+        NiMo_Al2O3_60porciento->AddMaterial(Aluminio,17*perCent);
+        NiMo_Al2O3_60porciento->AddMaterial(Oxigeno,22.375*perCent);
+        NiMo_Al2O3_60porciento->AddMaterial(Niquel,7.33*perCent);
+        NiMo_Al2O3_60porciento->AddMaterial(Molibdeno,5.63*perCent);
+        NiMo_Al2O3_60porciento->AddMaterial(Vanadio,4.07*perCent);
+        NiMo_Al2O3_60porciento->AddMaterial(Carbono,21.88*perCent);
+        NiMo_Al2O3_60porciento->AddMaterial(Calcio,9.95*perCent);
+        NiMo_Al2O3_60porciento->AddMaterial(Azufre,11.71*perCent);
+        NiMo_Al2O3_60porciento->AddMaterial(Sodio,0.055*perCent);
+       
+        // define NiMo_Al2O3 - para que el total aumente 74%
+        NiMo_Al2O3_74porciento = new G4Material("NiMo_Al2O3_74porciento", 2.102 * g/cm3, 9);
+        NiMo_Al2O3_74porciento->AddMaterial(Aluminio,15*perCent);
+        NiMo_Al2O3_74porciento->AddMaterial(Oxigeno,20.52*perCent);
+        NiMo_Al2O3_74porciento->AddMaterial(Niquel,7.7*perCent);
+        NiMo_Al2O3_74porciento->AddMaterial(Molibdeno,4.97*perCent);
+        NiMo_Al2O3_74porciento->AddMaterial(Vanadio,4.42*perCent);
+        NiMo_Al2O3_74porciento->AddMaterial(Carbono,23.78*perCent);
+        NiMo_Al2O3_74porciento->AddMaterial(Calcio,10.82*perCent);
+        NiMo_Al2O3_74porciento->AddMaterial(Azufre,12.73*perCent);
+        NiMo_Al2O3_74porciento->AddMaterial(Sodio,0.06*perCent);
+
+	// ---- materiales que directamente se agregan al modelamiento de torre de hidrotratamiento --------
+        // define lecho fijo de catalizador - sin residuos
+        LechoFijo = new G4Material("LechoFijo", 1.205 * g/cm3, 2);
+        LechoFijo->AddMaterial(NiMo_Al2O3, 64.73*perCent);
+        LechoFijo->AddMaterial(Diesel, 35.27*perCent);
+      
+        // define lecho fijo de catalizador - con 20% de incremento debido al residuo
+	LechoFijo_20porciento = new G4Material("LechoFijo_20porciento", 1.51 * g/cm3, 2);//original 1.446
+        LechoFijo_20porciento->AddMaterial(NiMo_Al2O3_20porciento, 90.00*perCent);//original 78.48
+        LechoFijo_20porciento->AddMaterial(Diesel, 10.00*perCent);
+
+        // define lecho fijo de catalizador - con 40% de incremento debido al residuo
+        LechoFijo_40porciento = new G4Material("LechoFijo_40porciento", 1.89 * g/cm3, 2);
+        LechoFijo_40porciento->AddMaterial(NiMo_Al2O3_40porciento, 88.31*perCent);
+        LechoFijo_40porciento->AddMaterial(Diesel, 11.69*perCent);
+
+        // define lecho fijo de catalizador - con 60% de incremento debido al residuo
+        LechoFijo_60porciento = new G4Material("LechoFijo_60porciento", 2.3 * g/cm3, 2);
+        LechoFijo_60porciento->AddMaterial(NiMo_Al2O3_60porciento, 95.68*perCent);
+        LechoFijo_60porciento->AddMaterial(Diesel, 4.32*perCent);
+
+        // define lecho fijo de catalizador - con 74% de incremento debido al residuo
+        LechoFijo_74porciento = new G4Material("LechoFijo_74porciento", 3.1 * g/cm3, 2);
+        LechoFijo_74porciento->AddMaterial(NiMo_Al2O3_74porciento, 99.84*perCent);
+        LechoFijo_74porciento->AddMaterial(Diesel, 0.16*perCent);
+
+// ++++++++++++++++++++++++++++++++ HASTA AQUÌ SE DEFINIERON LOS MATERIALES PARA EL CATALIZADOR ++++++++++++++++++++++++++++++++
+
+
 }

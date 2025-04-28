@@ -1,0 +1,48 @@
+[INFO] Running createjobs script with the following options:
+
+- Path to input file: /opt/data/CorsikaFlujos/1hora/S3_bga_003600_fluka.shw 
+- Path to base directory: /opt/data/Articulo/plomo/3cm/base
+- Path to job directory: /opt/data/Articulo/plomo/3cm/jobs
+
+
+[INFO] Reading input file
+/opt/data/CorsikaFlujos/1hora/S3_bga_003600_fluka.shw
+
+
+[INFO] Splitting input file: /opt/data/CorsikaFlujos/1hora/S3_bga_003600_fluka.shw
+Maximum 416521 lines (particles) per file
+[INFO] Destination: /tmp/flux_files-sc7y7jtm
+[INFO] Using file PREFIX = input
+[INFO] Splitting completed!
+[INFO] Creating job directory: /opt/data/Articulo/plomo/3cm/jobs/run_00
+[INFO] Creating job directory: /opt/data/Articulo/plomo/3cm/jobs/run_01
+[INFO] Creating job directory: /opt/data/Articulo/plomo/3cm/jobs/run_02
+[INFO] Creating job directory: /opt/data/Articulo/plomo/3cm/jobs/run_03
+[INFO] Creating job directory: /opt/data/Articulo/plomo/3cm/jobs/run_04
+[INFO] Creating job directory: /opt/data/Articulo/plomo/3cm/jobs/run_05
+[INFO] Creating job directory: /opt/data/Articulo/plomo/3cm/jobs/run_06
+[INFO] Creating job directory: /opt/data/Articulo/plomo/3cm/jobs/run_07
+[INFO] Creating job directory: /opt/data/Articulo/plomo/3cm/jobs/run_08
+[INFO] Creating job directory: /opt/data/Articulo/plomo/3cm/jobs/run_09
+[INFO] Deleting temporary directory /tmp/flux_files-sc7y7jtm
+[INFO] Preparing Configuration files
+[INFO] Done!
+[INFO] Configured jobs at /opt/data/Articulo[INFO] Running runjobs wit[INFO] Running runjobs wit[INFO] Running runjobs with the following options:
+
+- Path to job directory: /opt/data/Articulo/plomo/0.5cm/jobs
+- Number of threads: 10
+
+
+[INFO] Preparing queue...
+[INFO] Total number of jobs: 10
+[INFO] Queue max size: 10
+Running executable /opt/data/Articulo/plomo/0.5cm/jobs/run_00/G4HodoscopeSimulator
+Running executable /opt/data/Articulo/plomo/0.5cm/jobs/run_01/G4HodoscopeSimulator
+Running executable /opt/data/Articulo/plomo/0.5cm/jobs/run_02/G4HodoscopeSimulator
+Running executable /opt/data/Articulo/plomo/0.5cm/jobs/run_03/G4HodoscopeSimulator
+Running executable /opt/data/Articulo/plomo/0.5cm/jobs/run_04/G4HodoscopeSimulator
+Running executable /opt/data/Articulo/plomo/0.5cm/jobs/run_05/G4HodoscopeSimulator
+Running executable /opt/data/Articulo/plomo/0.5cm/jobs/run_06/G4HodoscopeSimulator
+Running executable /opt/data/Articulo/plomo/0.5cm/jobs/run_07/G4HodoscopeSimulator
+Running executable /opt/data/Articulo/plomo/0.5cm/jobs/run_08/G4HodoscopeSimulator
+Running executable /opt/data/Articulo/plomo/0.5cm/jobs/run_09/G4HodoscopeSimulator

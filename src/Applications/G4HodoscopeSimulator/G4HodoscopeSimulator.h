@@ -53,4 +53,5 @@ class G4HodoscopeSimulator
   	friend class G4HodoscopePrimaryGenerator;
 };
 
+
 #endif

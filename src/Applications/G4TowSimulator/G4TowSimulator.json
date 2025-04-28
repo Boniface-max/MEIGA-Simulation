@@ -1,0 +1,32 @@
+{
+	"Input" :
+	{
+		"Mode" : "UseEcoMug",
+		"InputFileName" : "./salidasimu.shw",
+		"InputNParticles" : 1
+	},
+	"Output" : 
+	{
+		"OutputFile" : "./output.json",
+		"CompressOutput" : false,
+		"SaveInput" : false,
+		
+		"SaveCounts" : true,
+		"SaveEnergy" : false,
+		
+		"SaveCharge" : false,
+		"SavePETimeDistribution" : false
+	},
+	"DetectorList" : "./DetectorList.xml",
+	"DetectorProperties" : "./DetectorProperties.xml",
+	"Simulation" :
+	{
+		"SimulationMode" : "eFast",
+		"GeoVisOn" : true,
+		"TrajVisOn" : true,
+		"CheckOverlaps" : false,
+		"Verbosity" : 1,
+		"RenderFile" : "VRML2FILE",
+		"PhysicsName" : "QGSP_BERT_HP"
+	}
+}

@@ -1,0 +1,8 @@
+Test JOB 
+Machine: thor.uis.edu.co
+Date: Mon Mar 17 01:23:21 UTC 2025
+Inicio del trabajo: 2025-03-17 01:23:21
+Inputfile : /opt/data/CorsikaFlujos/1hora/S3_bga_003600_fluka.shw 
+srun -p GIRG -n 10 --qos=girg --pty /bin/bash
+Job: meiga_Hodo__app  - Inicio: 2025-03-17 01:23:21 - Fin: 2025-03-17 04:15:58
+Fin del trabajo: 2025-03-17 04:15:58

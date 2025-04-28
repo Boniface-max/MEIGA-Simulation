@@ -36,7 +36,13 @@ public:
 	static G4Element* elAl;
 	static G4Element* elPb;
 	static G4Element* elCl;
-	
+	static G4Element* elMn;// declarando elemento Mn
+	static G4Element* C;
+	static G4Element* H;
+        // static G4Element* elNi;// declarando elemento Ni
+	//static G4Element* elMo;// declarando elemento Mo
+	//static G4Element* elV;// declarando Vanadio
+
 	// compounds
 	static G4Material* SiO2;
 	static G4Material* TiO2;
@@ -46,9 +52,10 @@ public:
 	static G4Material* POPOP;
 	static G4Material* Polystyrene;
 	static G4Material* Lead;
-
+	static G4Material* Iron;
 	// Materials
 	static G4Material* Air;
+	static G4Material* Steel;// declarando material acero
 	static G4Material* Water;
 	static G4Material* Salt;
 	static G4Material* StdRock;
@@ -61,6 +68,32 @@ public:
 	static G4Material* HDPE;
 	static G4Material* Concrete;
 	static G4Material* SaltyWater;
+	static G4Material* Oil;
+	static G4Material* Alum;// declarando aluminio como material
+	static G4Material* Aluminio;//declarando Al como material
+	static G4Material* Oxigeno;//declarando O como material			
+	static G4Material* Niquel;// declarando Ni como material
+	static G4Material* Molibdeno;// declarando Mo como material
+	static G4Material* Vanadio;//declarando V como material
+        static G4Material* Carbono;//declarando C como material
+	static G4Material* Calcio;//declarando Ca como material
+        static G4Material* Azufre;//declarando S como material
+	static G4Material* Sodio;//declarando Na como material
+	static G4Material* Hidrogeno;//declarando H como material
+	
+	static G4Material* NiMo_Al2O3;// declarando materiales para modelamiento de Lecho fijo
+	static G4Material* Parafina;// declarando materiales para modelamiento de Lecho fijo			     
+        static G4Material* Benceno;// declarando materiales para modelamiento de Lecho fijo 
+        static G4Material* Diesel;// declarando materiales para modelamiento de Lecho fijo
+        static G4Material* NiMo_Al2O3_20porciento;// declarando materiales para modelamiento de Lecho fijo
+        static G4Material* NiMo_Al2O3_40porciento;// declarando materiales para modelamiento de Lecho fijo
+        static G4Material* NiMo_Al2O3_60porciento;// declarando materiales para modelamiento de Lecho fijo
+        static G4Material* NiMo_Al2O3_74porciento;// declarando materiales para modelamiento de Lecho fijo
+        static G4Material* LechoFijo;// declarando materiales para modelamiento de Lecho fijo 
+        static G4Material* LechoFijo_20porciento;// declarando materiales para modelamiento de Lecho fijo
+	static G4Material* LechoFijo_40porciento;// declarando materiales para modelamiento de Lecho fijo			      
+	static G4Material* LechoFijo_60porciento;// declarando materiales para modelamiento de Lecho fijo			      
+        static G4Material* LechoFijo_74porciento;// declarando materiales para modelamiento de Lecho fijo
 	static G4OpticalSurface* ScinOptSurf;
 	static G4OpticalSurface* LinerOptSurf;
 	static G4OpticalSurface* LinerOptSurf2;
