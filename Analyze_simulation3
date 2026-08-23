@@ -1,0 +1,25 @@
+import json
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Load simulation output data
+data = np.loadtxt("vertical_muon.txt")
+
+# Column 0 = Event ID, Column 3 = Muon Counter
+counter_hits = data[:, 3]
+
+# Extract all remaining columns as Hodoscope channels
+hodoscope_cols = [c for c in range(data.shape[1]) if c not in [0, 3]]
+hodoscope_hits = data[:, hodoscope_cols]
+
+# Calculate individual and coincidence efficiencies
+counter_eff = (np.sum(counter_hits > 0) / len(data)) * 100
+hodoscope_eff = (np.sum(np.any(hodoscope_hits > 0, axis=1)) / len(data)) * 100
+coincidence = (
+    np.sum((counter_hits > 0) & np.any(hodoscope_hits > 0, axis=1)) / len(data)
+) * 100
+
+print("--- Refined Performance Results ---")
+print(f"Muon Counter Efficiency: {counter_eff:.2f}%")
+print(f"Hodoscope Tracking Efficiency: {hodoscope_eff:.2f}%")
+print(f"Counter-Hodoscope Coincidence Rate: {coincidence:.2f}%")
