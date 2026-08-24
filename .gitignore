@@ -1,3 +1,8 @@
-.shw ..
-.shw ..
-.shw ..
+*.wrl
+*.shw
+*.root
+*.out
+CMakeFiles/
+Makefile
+cmake_install.cmake
+G4HodoscopeSimulator

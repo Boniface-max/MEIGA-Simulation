@@ -1,0 +1,1 @@
+{"Output":{"Event_0":{"Detector_0":{"BinaryCounter":"000000000000000000000000000000"},"Detector_1":{"BinaryCounter":"000000000000000000000000000000"}}},"DetectorList":{"Detector_0":{"ID":0,"Name":"eHodoscope","Position":[0.0,0.0,-1000.0],"OptDeviceList":[1,2]},"Detector_1":{"ID":1,"Name":"eHodoscope","Position":[0.0,0.0,-2000.0],"OptDeviceList":[1,2]}}}
