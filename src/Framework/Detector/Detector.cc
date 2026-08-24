@@ -5,6 +5,7 @@
 #include "Musaic.h"
 #include "Mudulus.h"
 #include "Hodoscope.h"
+#include "Counter.h"
 #include "SaltyWCD.h"
 #include "Dummy.h"
 
@@ -42,6 +43,9 @@ Detector::StringToType(string name)
 		return Detector::eSaltyWCD;
 	else if (name == "eDummy")
 		return Detector::eDummy;
+        else if (name == "eCounter")
+                return Detector::eCounter;
+
 	else {
 		cout << "[WARNING] Detector::StringToType: Unknown detector type!" << endl;
 		return Detector::eUnknown;
@@ -74,6 +78,7 @@ InitTypeToBuild() {
 	TypeToBuild[Detector::eHodoscope]			= Hodoscope::BuildDetector;
 	TypeToBuild[Detector::eSaltyWCD]			= SaltyWCD::BuildDetector;
 	TypeToBuild[Detector::eDummy]					= Dummy::BuildDetector;
+        TypeToBuild[Detector::eCounter]                                   = Counter::BuildDetector;
 
 }
 

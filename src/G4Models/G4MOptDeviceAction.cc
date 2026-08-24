@@ -3,6 +3,7 @@
 #include "DetectorSimData.h"
 #include "OptDeviceSimData.h"
 #include "OptDevice.h"
+#include "Counter.h"
 
 #include <G4Step.hh>
 #include <G4TouchableHistory.hh>

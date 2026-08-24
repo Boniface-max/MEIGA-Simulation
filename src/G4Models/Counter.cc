@@ -1,6 +1,8 @@
-#include "Hodoscope.h"
+#include "Counter.h"
 #include "Geometry.h"
 #include "Materials.h"
+#include "Detector.h"
+#include "Event.h"
 #include "G4MScintillatorBarAction.h"
 #include "G4MOptDeviceAction.h"
 
@@ -14,7 +16,7 @@
 using namespace std;
 
 void
-Hodoscope::BuildDetector(G4LogicalVolume* logMother, Detector& detector, Event& theEvent, G4bool fCheckOverlaps)
+Counter::BuildDetector(G4LogicalVolume* logMother, Detector& detector, Event& theEvent, G4bool fCheckOverlaps)
 {
 
 
@@ -50,7 +52,7 @@ Hodoscope::BuildDetector(G4LogicalVolume* logMother, Detector& detector, Event& 
 	// Scintillator bars
 	double barWidth = 20.0*cm;
 	double barLength = 20.0*cm;
-	double barThickness = 1.0*cm;
+	double barThickness = 5.0*cm;
 	double barCoatingThickness = detector.GetBarCoatingThickness();
 	double detectorWidth = nBars * (barWidth + barCoatingThickness);
 	double halfWidth = 0.5 * nBars * (barWidth + barCoatingThickness);
@@ -70,8 +72,8 @@ Hodoscope::BuildDetector(G4LogicalVolume* logMother, Detector& detector, Event& 
 	int detectorId = detector.GetId();
 	ostringstream namedetector;
 	namedetector.str("");
-	namedetector << "Hodoscope_"+to_string(detectorId);
-	cout << "[INFO] Hodoscope::BuildDetector: Building detector " << namedetector.str();
+	namedetector << "Counter_"+to_string(detectorId);
+	cout << "[INFO] Counter::BuildDetector: Building detector " << namedetector.str();
 	cout << " (ID = " << detectorId << ")";
 	cout << " with " << nBars << " scintillator bars " << endl;
 
@@ -108,7 +110,7 @@ Hodoscope::BuildDetector(G4LogicalVolume* logMother, Detector& detector, Event& 
 	
 
 	// Defne BarCoating as LogicalSkingSurface
-	new G4LogicalSkinSurface("BarCoating", logCoating, Materials().ScinOptSurf);
+	 new G4LogicalSkinSurface("BarCoating", logCoating, Materials().ScinOptSurf);
 
 	// useful rotation matrix for bars orientation
 	G4RotationMatrix* rotationEnclosure = new G4RotationMatrix();
@@ -127,6 +129,8 @@ Hodoscope::BuildDetector(G4LogicalVolume* logMother, Detector& detector, Event& 
 	G4VisAttributes green(G4Colour::Green());
 	G4VisAttributes blue(G4Colour::Blue());
 	G4VisAttributes black(G4Colour::Black());
+        G4VisAttributes white(G4Colour::White());
+        G4VisAttributes red(G4Colour::Red());
 
 	int panelId = detectorId+1;
 
@@ -138,12 +142,12 @@ Hodoscope::BuildDetector(G4LogicalVolume* logMother, Detector& detector, Event& 
 	double fFiberPosX = 0.5*barLength - 2*barCoatingThickness;
 	double fFiberPosZ = fiberRadius + claddingThickness;
 
-	// bars of the top panel
+	// bars of the middle panel
 	for (int bIt=0; bIt<nBars; ++bIt) {
 
-		string gridName = "X";
+		string gridName = "Z";
 		int barId = bIt+1;
-		int barId2 = 100*panelId + barId;
+		int barId1 = 100*panelId + barId;
 
 		double fBarPosX = -0.5*barWidth;
 		double fBarPosY = bIt * (barWidth + 2*barCoatingThickness);
@@ -157,7 +161,7 @@ Hodoscope::BuildDetector(G4LogicalVolume* logMother, Detector& detector, Event& 
 		string nameClad2 = "FiberClad2_"+gridName;
 		string nameClad1 = "FiberClad1_"+gridName;
 		string nameFiber = "Fiber_"+gridName;
-		string namePixel = "Pixel_"+gridName+to_string(barId2);
+		string namePixel = "Pixel_"+gridName+to_string(barId1);
 		// register pixel in the detector class
 		detector.MakeOptDevice(barId, OptDevice::eMChPMT);
 
@@ -174,81 +178,25 @@ Hodoscope::BuildDetector(G4LogicalVolume* logMother, Detector& detector, Event& 
 		logPixel->SetVisAttributes(blue);
 
 		// physical volumes
-		new G4PVPlacement(nullptr, barPosition, logCoating, nameCoating, logCasing, false, barId2, fCheckOverlaps);
-		new G4PVPlacement(nullptr, G4ThreeVector(), logScinBar, nameScinBar, logCoating, false, barId2, fCheckOverlaps);
+		new G4PVPlacement(nullptr, barPosition, logCoating, nameCoating, logCasing, false, barId1, fCheckOverlaps);
+		new G4PVPlacement(nullptr, G4ThreeVector(), logScinBar, nameScinBar, logCoating, false, barId1, fCheckOverlaps);
 		// register scintillator bar as Sensitive Detector to store hits
 		G4MScintillatorBarAction* const scinBarSD = new G4MScintillatorBarAction(namedetector.str() + "/" + nameScinBar+"_"+to_string(barId), detectorId, barId, theEvent);
 		sdMan->AddNewDetector(scinBarSD);
 		logScinBar->SetSensitiveDetector(scinBarSD);
 
-		new G4PVPlacement(rotationFiber, G4ThreeVector(0., 0., fFiberPosZ), logClad2, nameClad2, logScinBar, true, barId2, fCheckOverlaps);
-		new G4PVPlacement(nullptr, G4ThreeVector(0, 0, 0), logClad1, nameClad1, logClad2, false, barId2, fCheckOverlaps);
-		new G4PVPlacement(nullptr, G4ThreeVector(0, 0, 0), logFiber, nameFiber, logClad1, false, barId2, fCheckOverlaps);
+		new G4PVPlacement(rotationFiber, G4ThreeVector(0., 0., fFiberPosZ), logClad2, nameClad2, logScinBar, false, barId1, fCheckOverlaps);
+		new G4PVPlacement(nullptr, G4ThreeVector(0, 0, 0), logClad1, nameClad1, logClad2, false, barId1, fCheckOverlaps);
+		new G4PVPlacement(nullptr, G4ThreeVector(0, 0, 0), logFiber, nameFiber, logClad1, false, barId1, fCheckOverlaps);
 
-		new G4PVPlacement(rotationFiber, G4ThreeVector(fFiberPosX, 0, fFiberPosZ), logPixel, namePixel, logScinBar, false, barId2, fCheckOverlaps);
+		new G4PVPlacement(rotationFiber, G4ThreeVector(fFiberPosX, 0, fFiberPosZ), logPixel, namePixel, logScinBar, false, barId1, fCheckOverlaps);
 
 		// registration of pixel as a Sensitive Volume
 		G4MOptDeviceAction* const pixelTopSD = new G4MOptDeviceAction(namedetector.str() + "/" + namePixel, detectorId, barId, theEvent);
 		sdMan->AddNewDetector(pixelTopSD);
 		logPixel->SetSensitiveDetector(pixelTopSD);
 
-	} // end loop of bars of the top panel
+	} // end loop of bars of the middle panel
 
-	// bars of the bottom panel
-	for (int bIt=0; bIt<nBars; ++bIt) {
-
-		string gridName = "K";
-		int barId = bIt+1+nBars;
-		int barId2 = 100*panelId + barId;
-
-		double fBarPosX = bIt * (barWidth + 2*barCoatingThickness);
-		double fBarPosY = -0.5*barWidth;
-		// center bar at top of the casing
-		double fBarPosZ = -0.5*(0.5*barThickness*2 + fCasingThickness);
-
-		G4ThreeVector barPosition = G4ThreeVector(fBarPosX-halfWidth+0.5*barWidth, fBarPosY+0.5*barWidth, fBarPosZ);
-
-		string nameCoating = "BarCoating_"+gridName;
-		string nameScinBar = "BarScin_"+gridName;
-		string nameClad2 = "FiberClad2_"+gridName;
-		string nameClad1 = "FiberClad1_"+gridName;
-		string nameFiber = "Fiber_"+gridName;
-		string namePixel = "Pixel_"+gridName+to_string(barId2);
-		// register pixel in the detector class
-		detector.MakeOptDevice(barId, OptDevice::eMChPMT);
-
-		// logical volumes
-		logCoating = new G4LogicalVolume(solidCoating, Materials().ScinCoating, nameCoating, 0, 0, 0);
-		logScinBar = new G4LogicalVolume(solidScinBar, Materials().ScinPlastic, nameScinBar, 0, 0, 0);
-		logClad2 = new G4LogicalVolume(solidClad2, Materials().FPethylene, nameClad2, 0, 0, 0);
-		logClad2->SetVisAttributes(green);
-		logClad1 = new G4LogicalVolume(solidClad1, Materials().Pethylene, nameClad1, 0, 0, 0);
-		logClad1->SetVisAttributes(green);
-		logFiber = new G4LogicalVolume(solidFiber, Materials().PMMA, nameFiber, 0, 0, 0);
-		logFiber->SetVisAttributes(green);
-		logPixel = new G4LogicalVolume(solidPixel, Materials().Pyrex, namePixel, 0, 0, 0);
-		logPixel->SetVisAttributes(blue);
-
-		// physical volumes
-		new G4PVPlacement(rotationBot, barPosition, logCoating, nameCoating, logCasing, false, barId2, fCheckOverlaps);
-		new G4PVPlacement(nullptr, G4ThreeVector(), logScinBar, nameScinBar, logCoating, false, barId2, fCheckOverlaps);
-		
-		G4MScintillatorBarAction* const scinBarSD = new G4MScintillatorBarAction(namedetector.str() + "/" + nameScinBar+"_"+to_string(barId), detectorId, barId, theEvent);
-		sdMan->AddNewDetector(scinBarSD);
-		logScinBar->SetSensitiveDetector(scinBarSD);
-		// register scintillator bar as Sensitive Detector to store hits
-		new G4PVPlacement(rotationFiber, G4ThreeVector(0, 0, fFiberPosZ), logClad2, nameClad2, logScinBar, true, barId2, fCheckOverlaps);
-		new G4PVPlacement(nullptr, G4ThreeVector(0, 0, 0), logClad1, nameClad1, logClad2, true, barId2, fCheckOverlaps);
-		new G4PVPlacement(nullptr, G4ThreeVector(0, 0, 0), logFiber, nameFiber, logClad1, true, barId2, fCheckOverlaps);
-
-		new G4PVPlacement(rotationFiber, G4ThreeVector(fFiberPosX, 0, fFiberPosZ), logPixel, namePixel, logScinBar, true, barId2, fCheckOverlaps);
-
-		// registration of pixel as a Sensitive Volume
-		G4MOptDeviceAction* const pixelBotSD = new G4MOptDeviceAction(namedetector.str() + "/" + namePixel, detectorId, barId, theEvent);
-		sdMan->AddNewDetector(pixelBotSD);
-		logPixel->SetSensitiveDetector(pixelBotSD);
-
-
-	} // end loop of batrs of the bottom panel
 
 }

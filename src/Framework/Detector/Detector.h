@@ -1,6 +1,7 @@
 #ifndef Detector_h
 #define Detector_h
 
+#include "Counter.h"
 #include "OptDevice.h"
 #include "DefaultProperties.h"
 
@@ -42,6 +43,7 @@ class Detector
 			eScintillator = 4,
 			eHodoscope = 5,
 			eSaltyWCD = 6,
+                        eCounter = 7,
 			eDummy
 		};
 
