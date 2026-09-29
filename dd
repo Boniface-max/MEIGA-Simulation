@@ -1,0 +1,91 @@
+import numpy as np
+import scipy.stats as stats
+import matplotlib
+matplotlib.use('Agg')  # Prevents crash on terminal-only environments
+import matplotlib.pyplot as plt
+
+# =====================================================================
+# 1. GENERATE MOCK PLATFORM DATA (Matches your console results)
+# =====================================================================
+N_events = 10000
+np.random.seed(42)
+
+# Recreating the exact distribution statistics from your successful terminal run
+E_p1_hits = stats.moyal.rvs(loc=2.0, scale=0.3, size=int(10000 * 0.9784))
+E_p2_hits = stats.moyal.rvs(loc=10.2, scale=1.2, size=int(10000 * 0.9902))
+
+eff_p1, eff_p2, eff_p3 = 97.84, 99.02, 97.10
+coinc_double_12, coinc_double_23, coinc_double_13 = 96.86, 96.14, 94.99
+coinc_triple = 94.03
+
+# =====================================================================
+# 2. DESIGNING THE VISUALIZATION LAYOUT
+# =====================================================================
+# Setting up a high-resolution, side-by-side plot layout
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 6.5), dpi=200)
+plt.rcParams['font.sans-serif'] = 'Arial'
+
+# -----------------------------------------------------------------
+# PLOT A: Energy Deposition Spectra (Continuous Distribution Graph)
+# -----------------------------------------------------------------
+# Best for displaying raw energy resolution, Landau tails, and dE/dx physics
+ax1.hist(E_p1_hits, bins=80, density=True, alpha=0.55, color='#1f77b4', 
+         edgecolor='#11517d', label='1 cm Outer Panel ($P_1$)')
+ax1.hist(E_p2_hits, bins=80, density=True, alpha=0.55, color='#d62728', 
+         edgecolor='#8c1111', label='5 cm Middle Panel ($P_2$)')
+
+# Vertical indicator lines marking the most probable energy losses
+ax1.axvline(2.371, color='#11517d', linestyle='--', linewidth=1.5, label='$\mu_{P1}$: 2.37 MeV')
+ax1.axvline(11.505, color='#8c1111', linestyle='--', linewidth=1.5, label='$\mu_{P2}$: 11.51 MeV')
+
+ax1.set_title("Energy Deposition Spectra ($dE/dx$ Profiles)", fontsize=13, fontweight='bold', pad=12)
+ax1.set_xlabel("Deposited Energy (MeV)", fontsize=11)
+ax1.set_ylabel("Normalized Probability Density", fontsize=11)
+ax1.set_xlim(0, 20)
+ax1.grid(True, linestyle=':', alpha=0.5)
+ax1.legend(loc='upper right', frameon=True, facecolor='white', edgecolor='none', fontsize=10)
+
+# Annotation box summarizing the thickness scale performance metrics
+annotation_text = "$\mathbf{Thickness\ Scaling\ Analysis}$\n" \
+                  "Expected Ratio: 5.00x\n" \
+                  "Empirical Ratio: 4.85x\n" \
+                  "Resolution Offset: -3.0%"
+ax1.text(0.55, 0.45, annotation_text, transform=ax1.transAxes, fontsize=9.5,
+         bbox=dict(boxstyle="round,pad=0.5", facecolor='#f8f9fa', edgecolor='#dee2e6'))
+
+# -----------------------------------------------------------------
+# PLOT B: Single Panel vs. Coincidence Logic (The Bar Graph)
+# -----------------------------------------------------------------
+# Best for mapping systematic edge-losses, dead-time, and geometric efficiencies
+categories = ['Top\n($P_1$)', 'Middle\n($P_2$)', 'Bottom\n($P_3$)', 
+              'Double\n($P_1$ & $P_2$)', 'Double\n($P_2$ & $P_3$)', 'Double\n($P_1$ & $P_3$)', 
+              'Triple\n($P_1$ & $P_2$ & $P_3$)']
+efficiencies = [eff_p1, eff_p2, eff_p3, coinc_double_12, coinc_double_23, coinc_double_13, coinc_triple]
+
+# Professional tracking color palette split between singles and logical tracking states
+bar_colors = ['#2ca02c', '#2ca02c', '#2ca02c', '#ff7f0e', '#ff7f0e', '#ff7f0e', '#bcbd22']
+bars = ax2.bar(categories, efficiencies, color=bar_colors, edgecolor='#333333', width=0.55, linewidth=0.8)
+
+# Writing values accurately atop each respective bar column
+for bar in bars:
+    yval = bar.get_height()
+    ax2.text(bar.get_x() + bar.get_width()/2.0, yval + 1.2, f"{yval:.2f}%", 
+             ha='center', va='bottom', fontsize=9, fontweight='bold', color='#212529')
+
+ax2.set_title("Hardware Efficiency & Logical Coincidence Matrix", fontsize=13, fontweight='bold', pad=12)
+ax2.set_ylabel("Detection Tracking Efficiency (%)", fontsize=11)
+ax2.set_ylim(0, 112) # Leaves clean headroom for numeric data tags
+ax2.grid(axis='y', linestyle=':', alpha=0.5)
+
+# Adding a legend block to distinguish between single panel layers and coincidence triggers
+from matplotlib.patches import Patch
+legend_elements = [Patch(facecolor='#2ca02c', edgecolor='#333333', label='Single Panel Intrinsic Eff.'),
+                   Patch(facecolor='#ff7f0e', edgecolor='#333333', label='Double Coincidence (OR/AND)'),
+                   Patch(facecolor='#bcbd22', edgecolor='#333333', label='Triple Coincidence (True Tracks)')]
+ax2.legend(handles=legend_elements, loc='upper right', fontsize=9.5)
+
+# Save image file to your active local working directory directory cleanly
+plt.tight_layout()
+output_filename = "hodoscope_analysis_summary.png"
+plt.savefig(output_filename, dpi=250)
+print(f"🎉 Success! High-resolution plots exported cleanly to: {output_filename}")
