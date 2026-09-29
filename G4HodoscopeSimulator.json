@@ -3,7 +3,7 @@
 	{
 		"Mode" : "UseARTI",
 		"InputFileName" : "Chyulu_1500m_3600s.shw",
-		"InputNParticles" : 1
+		"InputNParticles" : 1000
 	},
 	"Output" : 
 	{

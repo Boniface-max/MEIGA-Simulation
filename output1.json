@@ -1,0 +1,35 @@
+{
+  "Output": {
+    "Event_0": {
+      "Detector_0": {
+        "BinaryCounter": "..."
+      },
+      "Detector_1": {
+        "..."
+      },
+      "Detector_2": {
+        "BinaryCounter": "..."
+      }
+    }
+  },
+
+  "DetectorList": {
+    "Detector_0": {
+      "ID": 0,
+      "Name": "eHodoscope",
+      "Position": [0.0, 0.0, -1000.0]
+    },
+
+    "Detector_1": {
+      "ID": 1,
+      "Name": "eCounter",
+      "Position": [0.0, 0.0, -2000.0]
+    },
+
+    "Detector_2": {
+      "ID": 2,
+      "Name": "eHodoscope",
+      "Position": [0.0, 0.0, -3000.0]
+    }
+  }
+}
